@@ -16,54 +16,18 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  {
-    label: "Sitio",
-    href: "/",
-    hasDropdown: false,
-  },
-  {
-    label: "Panel",
-    href: "/dashboard",
-    hasDropdown: false,
-  },
-  {
-    label: "Eventos",
-    href: "/eventos",
-    hasDropdown: false,
-  },
-  {
-    label: "Testimonios",
-    href: "/testimonios",
-    hasDropdown: false,
-  },
-  {
-    label: "Pregúntale a Neville",
-    href: "/preguntale-a-neville",
-    hasDropdown: false,
-  },
-  {
-    label: "Foro",
-    href: "/foro",
-    hasDropdown: true,
-    subItems: [
-      { label: "Inicio", href: "/foro", description: "Vista principal" },
-      { label: "Ejemplo de Tema", href: "/foro/tema/1", description: "Plantilla de discusión" },
-    ]
-  },
-  {
-    label: "N. Aggiornado",
-    href: "/biblioteca/100",
-    hasDropdown: false,
-  },
+  { label: "Sitio", href: "/", hasDropdown: false },
+  { label: "Panel", href: "/dashboard", hasDropdown: false },
+  { label: "Eventos", href: "/eventos", hasDropdown: false },
+  { label: "Testimonios", href: "/testimonios", hasDropdown: false },
+  { label: "Pregúntale a Neville", href: "/preguntale-a-neville", hasDropdown: false },
   {
     label: "Explorar",
     href: "#explore",
     hasDropdown: true,
     subItems: [
       { label: "Biblioteca", href: "/biblioteca", description: "Artículos y recursos" },
-      { label: "Texto del Post", href: "/biblioteca/texto/personajes-inolvidables", description: "Lectura de hoy" },
       { label: "Podcast", href: "#podcast", description: "Escucha a expertos" },
-      { label: "Talleres", href: "#workshops", description: "Grabaciones de eventos" },
     ],
   },
 ];
@@ -107,105 +71,107 @@ export default function Header() {
   };
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-black/95 backdrop-blur-sm" : "bg-transparent"
-        }`}
-    >
-      <div className="wrapper">
-        <div className="flex items-center justify-between h-[72px]">
-          {/* Logo */}
-          <Link href="/" className="flex items-center">
-            <span className="text-white font-medium text-base tracking-[0.15em] uppercase cursor-pointer">
-              ECDLI
-            </span>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1">
-            {navItems.map((item) => (
-              <div
-                key={item.label}
-                className="relative"
-                onMouseEnter={() => handleMouseEnter(item.label)}
-                onMouseLeave={handleMouseLeave}
-              >
-                <Link
-                  href={item.href}
-                >
-                  <span className="group flex items-center gap-1.5 px-3 py-2 text-white text-[13px] font-medium tracking-wide hover:opacity-70 transition-opacity duration-300 cursor-pointer">
-                    {item.label}
-                    {item.hasDropdown && (
-                      <ChevronDown
-                        className={`w-3.5 h-3.5 opacity-60 transition-all duration-300 ${activeDropdown === item.label ? "rotate-180 opacity-100" : ""
-                          }`}
-                      />
-                    )}
-                  </span>
-                </Link>
-
-                {/* Dropdown Menu */}
-                {item.hasDropdown && item.subItems && (
-                  <div
-                    className={`absolute top-full left-0 pt-2 transition-all duration-300 ${activeDropdown === item.label
-                      ? "opacity-100 visible translate-y-0"
-                      : "opacity-0 invisible -translate-y-2"
-                      }`}
-                  >
-                    <div className="bg-black/95 backdrop-blur-md rounded-xl border border-white/10 p-2 min-w-[280px] shadow-2xl">
-                      {item.subItems.map((subItem) => (
-                        <Link
-                          key={subItem.label}
-                          href={subItem.href}
-                        >
-                          <div className="flex flex-col gap-0.5 px-4 py-3 rounded-lg hover:bg-white/5 transition-colors duration-200 cursor-pointer">
-                            <span className="text-white text-sm font-medium">
-                              {subItem.label}
-                            </span>
-                            {subItem.description && (
-                              <span className="text-white/50 text-[11px]">
-                                {subItem.description}
-                              </span>
-                            )}
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </nav>
-
-          {/* Right Side Actions */}
-          <div className="flex items-center gap-2">
-            <button className="hidden md:flex items-center justify-center w-9 h-9 text-white hover:opacity-70 transition-opacity duration-300">
-              <Search className="w-5 h-5" />
-            </button>
-
-            <button className="hidden md:flex items-center justify-center w-9 h-9 text-white hover:opacity-70 transition-opacity duration-300">
-              <User className="w-5 h-5" />
-            </button>
-
-            <Link href="/dashboard">
-              <span className="hidden md:inline-flex items-center justify-center gap-2 font-medium text-center tracking-wide rounded-full duration-500 border border-white bg-white hover:bg-white/90 text-black text-xs py-2.5 px-5 cursor-pointer">
-                Mi Cuenta
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-black/95 backdrop-blur-sm" : "bg-transparent"
+          }`}
+      >
+        <div className="wrapper">
+          <div className="flex items-center justify-between h-[72px]">
+            {/* Logo */}
+            <Link href="/" className="flex items-center">
+              <span className="text-white font-medium text-base tracking-[0.15em] uppercase cursor-pointer">
+                ECDLI
               </span>
             </Link>
 
-            {/* Mobile Menu Button */}
-            <button
-              className="lg:hidden flex items-center justify-center w-10 h-10 text-white z-[60]"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              {mobileMenuOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
-            </button>
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex items-center gap-1">
+              {navItems.map((item) => (
+                <div
+                  key={item.label}
+                  className="relative"
+                  onMouseEnter={() => handleMouseEnter(item.label)}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <Link
+                    href={item.href}
+                  >
+                    <span className="group flex items-center gap-1.5 px-3 py-2 text-white text-[13px] font-medium tracking-wide hover:opacity-70 transition-opacity duration-300 cursor-pointer">
+                      {item.label}
+                      {item.hasDropdown && (
+                        <ChevronDown
+                          className={`w-3.5 h-3.5 opacity-60 transition-all duration-300 ${activeDropdown === item.label ? "rotate-180 opacity-100" : ""
+                            }`}
+                        />
+                      )}
+                    </span>
+                  </Link>
+
+                  {/* Dropdown Menu */}
+                  {item.hasDropdown && item.subItems && (
+                    <div
+                      className={`absolute top-full left-0 pt-2 transition-all duration-300 ${activeDropdown === item.label
+                        ? "opacity-100 visible translate-y-0"
+                        : "opacity-0 invisible -translate-y-2"
+                        }`}
+                    >
+                      <div className="bg-black/95 backdrop-blur-md rounded-xl border border-white/10 p-2 min-w-[280px] shadow-2xl">
+                        {item.subItems.map((subItem) => (
+                          <Link
+                            key={subItem.label}
+                            href={subItem.href}
+                          >
+                            <div className="flex flex-col gap-0.5 px-4 py-3 rounded-lg hover:bg-white/5 transition-colors duration-200 cursor-pointer">
+                              <span className="text-white text-sm font-medium">
+                                {subItem.label}
+                              </span>
+                              {subItem.description && (
+                                <span className="text-white/50 text-[11px]">
+                                  {subItem.description}
+                                </span>
+                              )}
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </nav>
+
+            {/* Right Side Actions */}
+            <div className="flex items-center gap-2">
+              <button className="hidden md:flex items-center justify-center w-9 h-9 text-white hover:opacity-70 transition-opacity duration-300">
+                <Search className="w-5 h-5" />
+              </button>
+
+              <button className="hidden md:flex items-center justify-center w-9 h-9 text-white hover:opacity-70 transition-opacity duration-300">
+                <User className="w-5 h-5" />
+              </button>
+
+              <Link href="/dashboard">
+                <span className="hidden md:inline-flex items-center justify-center gap-2 font-medium text-center tracking-wide rounded-full duration-500 border border-white bg-white hover:bg-white/90 text-black text-xs py-2.5 px-5 cursor-pointer">
+                  Mi Cuenta
+                </span>
+              </Link>
+
+              {/* Mobile Menu Button */}
+              <button
+                className="lg:hidden flex items-center justify-center w-10 h-10 text-white z-[60]"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              >
+                {mobileMenuOpen ? (
+                  <X className="w-6 h-6" />
+                ) : (
+                  <Menu className="w-6 h-6" />
+                )}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      </header>
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
@@ -283,6 +249,6 @@ export default function Header() {
           </div>
         </div>
       )}
-    </header>
+    </>
   );
 }

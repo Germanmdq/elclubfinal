@@ -23,7 +23,6 @@ async function startServer() {
   const port = process.env.PORT || 3000;
 
   server.listen(port, () => {
-    // Optimized console log with parentheses
     console.log(`Server running on http://localhost:${port}/`);
   });
 }

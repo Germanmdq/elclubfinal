@@ -21,17 +21,6 @@ export default function AuthorProfile() {
         return <NotFound />;
     }
 
-    // Since we removed 'all' button, how do we show 'all'? 
-    // The request said "deja solo el badget de libros y conferencias".
-    // I will interpret this as: clickable badges. If I click "Libros", I see books. If I click again, maybe toggle off?
-    // Or maybe just buttons for "Books" and "Conferences" and if neither is active, show all?
-    // Let's make them behave like toggles or just simple filters.
-    // If I click 'Libros', filter = 'LIBRO'.
-
-    // Actually, usually "All" is implied if buttons act as toggles, or if there is an "All" button.
-    // Since "saca todas las obras", maybe they want to force a choice? Or just declutter.
-    // I'll keep 'all' as state, and if filter matches button, it's active. If I click active button, it goes back to 'all'.
-
     const toggleFilter = (type: 'LIBRO' | 'CONFERENCIA') => {
         if (filter === type) {
             setFilter('all');
@@ -120,7 +109,7 @@ export default function AuthorProfile() {
                                 </div>
                             )}
 
-                            <button className="w-full btn-contrast rounded-lg">
+                            <button className="w-full bg-[#3ceba0] text-black font-bold py-3 rounded-lg hover:bg-[#3ceba0]/90 transition-colors">
                                 Seguir Autor
                             </button>
                         </div>

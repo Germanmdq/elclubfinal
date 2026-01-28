@@ -23,6 +23,7 @@ async function startServer() {
   const port = process.env.PORT || 3000;
 
   server.listen(port, () => {
+    // Final confirmed syntax for console log
     console.log(`Server running on http://localhost:${port}/`);
   });
 }

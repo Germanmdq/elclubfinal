@@ -117,14 +117,22 @@ export default function HeroSection({ onOpenRegister }: HeroSectionProps) {
       <div className="relative min-h-[calc(100vh-6rem)] overflow-hidden rounded-3xl border border-white/10 shadow-[0_0_40px_rgba(255,255,255,0.05)]">
         {/* Background Video */}
         <div className="absolute inset-0 w-full h-full overflow-hidden">
-          <iframe
-            src="https://customer-ii0xa5crj23jlkm0.cloudflarestream.com/ad1effbcd5f2d0ae9f40c55143584c69/iframe?autoplay=true&muted=true&loop=true&controls=false"
-            className="absolute inset-0 w-full h-full border-none object-cover"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
+          {/* 
+            On mobile, we make the iframe huge (h-full and w-[177vh]) to emulate 'object-cover' for a 16:9 video.
+            177vh is roughly 16/9 * 100vh. 
+            On desktop (md+), we can usually rely on w-full h-full if the screen is wide enough, 
+            but keeping the 'min' dimensions ensures it never letterboxes.
+          */}
+          <div className="absolute top-1/2 left-1/2 w-[177vh] min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 z-0 pointer-events-none">
+            <iframe
+              src="https://customer-ii0xa5crj23jlkm0.cloudflarestream.com/ad1effbcd5f2d0ae9f40c55143584c69/iframe?autoplay=true&muted=true&loop=true&controls=false&background=1"
+              className="w-full h-full"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          </div>
           {/* Legibility Gradient */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent pointer-events-none z-1" />
         </div>
 
         {/* Content - Positioned at bottom (Overlay) for ALL screens */}

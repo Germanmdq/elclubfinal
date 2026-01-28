@@ -187,63 +187,73 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Overlay */}
       <div
-        className={`lg:hidden bg-black/95 backdrop-blur-sm border-t border-white/10 overflow-hidden transition-all duration-500 ${mobileMenuOpen ? "max-h-[80vh] opacity-100" : "max-h-0 opacity-0"
+        className={`lg:hidden fixed inset-0 z-[40] bg-black/95 backdrop-blur-md transition-all duration-500 ${mobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
           }`}
+        style={{ top: '0px' }} // Ensure it starts from top
       >
-        <nav className="flex flex-col py-4 overflow-y-auto max-h-[70vh]">
-          {navItems.map((item) => (
-            <div key={item.label}>
-              <button
-                className="flex items-center justify-between w-full px-6 py-4 text-white text-base font-medium tracking-wide hover:bg-white/5 transition-colors"
-                onClick={() => toggleMobileDropdown(item.label)}
-              >
-                {item.label}
-                {item.hasDropdown && (
-                  <ChevronDown
-                    className={`w-4 h-4 opacity-60 transition-transform duration-300 ${mobileActiveDropdown === item.label ? "rotate-180" : ""
-                      }`}
-                  />
-                )}
-              </button>
-
-              {/* Mobile Submenu */}
-              {item.hasDropdown && item.subItems && (
-                <div
-                  className={`overflow-hidden transition-all duration-300 ${mobileActiveDropdown === item.label
-                    ? "max-h-96 opacity-100"
-                    : "max-h-0 opacity-0"
-                    }`}
+        <div className="flex flex-col h-full pt-[80px] pb-6 px-6 overflow-y-auto">
+          <nav className="flex flex-col gap-1">
+            {navItems.map((item) => (
+              <div key={item.label} className="border-b border-white/10 last:border-none">
+                <button
+                  className="flex items-center justify-between w-full py-4 text-white text-lg font-medium tracking-wide"
+                  onClick={() => item.hasDropdown ? toggleMobileDropdown(item.label) : setMobileMenuOpen(false)}
                 >
-                  <div className="bg-white/5 py-2">
-                    {item.subItems.map((subItem) => (
-                      <a
-                        key={subItem.label}
-                        href={subItem.href}
-                        className="block px-10 py-3 text-white/70 text-sm font-medium hover:text-white hover:bg-white/5 transition-colors"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        {subItem.label}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          ))}
+                  {item.hasDropdown ? (
+                    <span className="flex items-center gap-2">{item.label}</span>
+                  ) : (
+                    <Link href={item.href} onClick={() => setMobileMenuOpen(false)} className="w-full text-left">
+                      {item.label}
+                    </Link>
+                  )}
 
-          <div className="border-t border-white/10 mt-4 pt-4 px-6 flex flex-col gap-4">
+                  {item.hasDropdown && (
+                    <ChevronDown
+                      className={`w-5 h-5 opacity-60 transition-transform duration-300 ${mobileActiveDropdown === item.label ? "rotate-180" : ""
+                        }`}
+                    />
+                  )}
+                </button>
+
+                {/* Mobile Submenu */}
+                {item.hasDropdown && item.subItems && (
+                  <div
+                    className={`overflow-hidden transition-all duration-300 ${mobileActiveDropdown === item.label
+                      ? "max-h-96 opacity-100 mb-4"
+                      : "max-h-0 opacity-0"
+                      }`}
+                  >
+                    <div className="flex flex-col gap-3 pl-4">
+                      {item.subItems.map((subItem) => (
+                        <Link
+                          key={subItem.label}
+                          href={subItem.href}
+                          className="block text-white/70 text-base font-medium hover:text-white transition-colors"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          {subItem.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </nav>
+
+          <div className="mt-auto pt-8">
             <Link href="/dashboard">
               <span
-                className="inline-flex items-center justify-center gap-2 font-medium text-center tracking-wide rounded-full duration-500 border border-white bg-white hover:bg-white/90 text-black text-sm py-3 px-6 cursor-pointer"
+                className="flex items-center justify-center w-full gap-2 font-medium text-center tracking-wide rounded-full border border-white bg-white hover:bg-white/90 text-black text-base py-4 px-6 cursor-pointer"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Mi Cuenta
               </span>
             </Link>
           </div>
-        </nav>
+        </div>
       </div>
     </header>
   );

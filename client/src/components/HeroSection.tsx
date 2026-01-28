@@ -7,7 +7,7 @@ export default function HeroSection({ onOpenRegister }: { onOpenRegister: () => 
       {/* Video Background */}
       <div className="absolute inset-0 w-full h-full pointer-events-none select-none">
         <iframe
-          src="https://customer-ii0xa5crj23jlkm0.cloudflarestream.com/95acd5d8ee4e54e9a884945e37adc3fe/iframe?poster=https%3A%2F%2Fcustomer-ii0xa5crj23jlkm0.cloudflarestream.com%2F95acd5d8ee4e54e9a884945e37adc3fe%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&muted=true&autoplay=true&loop=true&controls=false"
+          src="https://customer-ii0xa5crj23jlkm0.cloudflarestream.com/ad1effbcd5f2d0ae9f40c55143584c69/iframe?autoplay=true&muted=true&loop=true&controls=false"
           style={{
             border: 'none',
             position: 'absolute',

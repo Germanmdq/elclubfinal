@@ -75,24 +75,26 @@ export default function AuthorProfile() {
                     <aside className="lg:col-span-4 space-y-8">
                         {/* Profile Card */}
                         <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-                            <div className="w-full aspect-[3/4] rounded-lg overflow-hidden mb-6">
+                            <div className="w-full max-w-[240px] lg:max-w-none mx-auto aspect-[3/4] rounded-lg overflow-hidden mb-6 shadow-xl">
                                 <img src={author.image} alt={author.name} className="w-full h-full object-cover" />
                             </div>
 
-                            <h1 className="text-2xl font-serif font-medium mb-1">{author.name}</h1>
-                            <p className="text-[#3ceba0] text-sm font-medium mb-4">{author.title}</p>
+                            <div className="text-center lg:text-left">
+                                <h1 className="text-2xl lg:text-3xl font-serif font-medium mb-1">{author.name}</h1>
+                                <p className="text-[#3ceba0] text-sm font-medium mb-4">{author.title}</p>
 
-                            {/* Contact Actions */}
-                            <div className="flex gap-3 mb-8">
-                                <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
-                                    <Globe className="w-4 h-4 text-gray-400" />
-                                </button>
-                                <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
-                                    <Mail className="w-4 h-4 text-gray-400" />
-                                </button>
-                                <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
-                                    <FileText className="w-4 h-4 text-gray-400" />
-                                </button>
+                                {/* Contact Actions - Centered on mobile */}
+                                <div className="flex justify-center lg:justify-start gap-3 mb-8">
+                                    <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                                        <Globe className="w-4 h-4 text-gray-400" />
+                                    </button>
+                                    <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                                        <Mail className="w-4 h-4 text-gray-400" />
+                                    </button>
+                                    <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                                        <FileText className="w-4 h-4 text-gray-400" />
+                                    </button>
+                                </div>
                             </div>
 
                             {/* About */}

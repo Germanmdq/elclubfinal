@@ -1,4 +1,3 @@
-// server/index.ts
 import express from "express";
 import { createServer } from "http";
 import path from "path";
@@ -29,7 +28,7 @@ async function startServer() {
     if (fs.existsSync(indexPath)) {
       res.sendFile(indexPath);
     } else {
-      res.status(404).send("Frontend build not found. Please run 'npm run build' first.");
+      res.status(404).send("Frontend build not found.");
     }
   });
 

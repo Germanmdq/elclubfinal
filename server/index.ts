@@ -1,3 +1,4 @@
+// server/index.ts
 import express from "express";
 import { createServer } from "http";
 import path from "path";
@@ -11,12 +12,8 @@ async function startServer() {
   const app = express();
   const server = createServer(app);
 
-  // Simplified static path resolution
-  // If running from dist/index.js, it looks in dist/public
-  // If running from server/index.ts, it looks in dist/public relative to root
   const staticPath = path.resolve(__dirname, "public");
   const fallbackPath = path.resolve(__dirname, "..", "dist", "public");
-
   const finalPath = fs.existsSync(staticPath) ? staticPath : fallbackPath;
 
   console.log(`[Server] Static files path: ${finalPath}`);

@@ -1,65 +1,11 @@
 import { useState, useEffect } from "react";
 import { Search, ChevronDown, Menu, X, User } from "lucide-react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 
-/* ECDLI Header - Con menús desplegables funcionales
-   - Fondo transparente que cambia a negro al scroll
-   - Dropdowns animados con submenús
-   - Botón "Start now" verde lima (#3ceba0) rounded-full
-*/
-
-interface SubMenuItem {
-  label: string;
-  href: string;
-  description?: string;
-}
-
-interface NavItem {
-  label: string;
-  href: string;
-  hasDropdown: boolean;
-  subItems?: SubMenuItem[];
-}
-
-const navItems: NavItem[] = [
-  {
-    label: "Sitio",
-    href: "/",
-    hasDropdown: false,
-  },
-  {
-    label: "Panel",
-    href: "/dashboard",
-    hasDropdown: false,
-  },
-  {
-    label: "Foro",
-    href: "/foro",
-    hasDropdown: true,
-    subItems: [
-      { label: "Inicio", href: "/foro", description: "Vista principal" },
-      { label: "Ejemplo de Tema", href: "/foro/tema/1", description: "Plantilla de discusión" },
-    ]
-  },
-  {
-    label: "N. Aggiornado",
-    href: "/biblioteca/100",
-    hasDropdown: false,
-  },
-  {
-    label: "Explorar",
-    href: "#explore",
-    hasDropdown: true,
-    subItems: [
-      { label: "Biblioteca", href: "/biblioteca", description: "Artículos y recursos" },
-      { label: "Texto del Post", href: "/biblioteca/texto/personajes-inolvidables", description: "Lectura de hoy" },
-      { label: "Podcast", href: "#podcast", description: "Escucha a expertos" },
-      { label: "Talleres", href: "#workshops", description: "Grabaciones de eventos" },
-    ],
-  },
-];
+// ... (existing code)
 
 export default function Header() {
+  const [location, setLocation] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -227,14 +173,18 @@ export default function Header() {
                   >
                     <div className="flex flex-col gap-3 pl-4">
                       {item.subItems.map((subItem) => (
-                        <Link
+                        <a
                           key={subItem.label}
                           href={subItem.href}
                           className="block text-white/70 text-base font-medium hover:text-white transition-colors"
-                          onClick={() => setMobileMenuOpen(false)}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setLocation(subItem.href);
+                            setMobileMenuOpen(false);
+                          }}
                         >
                           {subItem.label}
-                        </Link>
+                        </a>
                       ))}
                     </div>
                   </div>

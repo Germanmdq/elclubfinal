@@ -166,6 +166,7 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    chunkSizeWarningLimit: 1600,
   },
   server: {
     port: 3000,
@@ -186,3 +187,4 @@ export default defineConfig({
     },
   },
 });
+// Force restart Tue Jan 27 23:59:36 -03 2026

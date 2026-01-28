@@ -4,6 +4,63 @@ import { Link, useLocation } from "wouter";
 
 // ... (existing code)
 
+/* ECDLI Header - Con menús desplegables funcionales
+   - Fondo transparente que cambia a negro al scroll
+   - Dropdowns animados con submenús
+   - Botón "Start now" verde lima (#3ceba0) rounded-full
+*/
+
+interface SubMenuItem {
+  label: string;
+  href: string;
+  description?: string;
+}
+
+interface NavItem {
+  label: string;
+  href: string;
+  hasDropdown: boolean;
+  subItems?: SubMenuItem[];
+}
+
+const navItems: NavItem[] = [
+  {
+    label: "Sitio",
+    href: "/",
+    hasDropdown: false,
+  },
+  {
+    label: "Panel",
+    href: "/dashboard",
+    hasDropdown: false,
+  },
+  {
+    label: "Foro",
+    href: "/foro",
+    hasDropdown: true,
+    subItems: [
+      { label: "Inicio", href: "/foro", description: "Vista principal" },
+      { label: "Ejemplo de Tema", href: "/foro/tema/1", description: "Plantilla de discusión" },
+    ]
+  },
+  {
+    label: "N. Aggiornado",
+    href: "/biblioteca/100",
+    hasDropdown: false,
+  },
+  {
+    label: "Explorar",
+    href: "#explore",
+    hasDropdown: true,
+    subItems: [
+      { label: "Biblioteca", href: "/biblioteca", description: "Artículos y recursos" },
+      { label: "Texto del Post", href: "/biblioteca/texto/personajes-inolvidables", description: "Lectura de hoy" },
+      { label: "Podcast", href: "#podcast", description: "Escucha a expertos" },
+      { label: "Talleres", href: "#workshops", description: "Grabaciones de eventos" },
+    ],
+  },
+];
+
 export default function Header() {
   const [location, setLocation] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

@@ -12,11 +12,17 @@ import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import Forum from "./pages/Forum";
 import Topic from "./pages/Topic";
+import NevilleChat from "./pages/NevilleChat";
+import Testimonios from "./pages/Testimonios";
+import EventPage from "./pages/EventPage";
 
 function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/preguntale-a-neville"} component={NevilleChat} />
+      <Route path={"/testimonios"} component={Testimonios} />
+      <Route path={"/eventos"} component={EventPage} />
       <Route path={"/dashboard"} component={Dashboard} />
       <Route path={"/foro"} component={Forum} />
       <Route path={"/foro/tema/:id"} component={Topic} />

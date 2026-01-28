@@ -11,31 +11,38 @@ async function startServer() {
   const app = express();
   const server = createServer(app);
 
+  // Detectamos si estamos en la carpeta dist (producción) o en src (desarrollo)
+  // Si __dirname termina en "dist", ya estamos dentro. Si no, estamos en "server"
+  const isProduction = process.env.NODE_ENV === "production";
+
+  // Definimos la ruta de forma absoluta y simple
+  // En la mayoría de los despliegues (Render/Railway), lo ideal es que 
+  // los estáticos estén en una carpeta 'public' al mismo nivel que el server.
   const staticPath = path.resolve(__dirname, "public");
-  const fallbackPath = path.resolve(__dirname, "..", "dist", "public");
-  const finalPath = fs.existsSync(staticPath) ? staticPath : fallbackPath;
 
-  console.log(`[Server] Static files path: ${finalPath}`);
+  console.log(`[Server] Intentando servir desde: ${staticPath}`);
 
-  if (!fs.existsSync(finalPath)) {
-    console.error(`[Server] Critical Error: Static directory not found at ${finalPath}`);
+  // Verificar si la carpeta existe para avisarte en los logs
+  if (!fs.existsSync(staticPath)) {
+    console.warn(`[Server] ADVERTENCIA: La carpeta ${staticPath} no existe.`);
   }
 
-  app.use(express.static(finalPath));
+  app.use(express.static(staticPath));
 
   app.get("*", (req, res) => {
-    const indexPath = path.join(finalPath, "index.html");
+    const indexPath = path.join(staticPath, "index.html");
+
     if (fs.existsSync(indexPath)) {
       res.sendFile(indexPath);
     } else {
-      res.status(404).send("Frontend build not found.");
+      // Este mensaje te ayudará a ver qué ruta está fallando en los logs del servidor
+      res.status(404).send(`Error: No se encontró index.html en: ${indexPath}`);
     }
   });
 
   const port = process.env.PORT || 3000;
-
   server.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}/`);
+    console.log(`Server running on port ${port}`);
   });
 }
 

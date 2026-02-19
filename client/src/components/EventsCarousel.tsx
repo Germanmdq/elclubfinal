@@ -1,164 +1,143 @@
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useState } from "react";
-import AnimatedSection from "./AnimatedSection";
-
-/* ECDLI Events Carousel - Con animaciones de scroll
-   - Título con tracking-tighter
-   - Cards con aspect-portrait (3:4)
-   - rounded-2xl
-   - Gradiente from-black/80
-   - Botones de navegación circulares verdes
-   - Animaciones fade-up al scroll
-*/
+import { useRef } from "react";
+import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
+import { motion } from "framer-motion";
 
 const events = [
   {
     id: 1,
-    image: "/images/business-meeting.jpg",
-    title: "BUSINESS MASTERY",
-    subtitle: "Grow your business exponentially",
-    tag: "ECDLI",
+    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=800",
+    title: "MAESTRÍA EN ASUNCIÓN",
+    subtitle: "Taller teórico-práctico sobre la Ley de Asunción.",
+    date: "12 MARZO",
   },
   {
     id: 2,
-    image: "/images/hero-speaker.jpg",
-    title: "LEADERSHIP ACADEMY",
-    subtitle: "Become a great leader",
-    tag: "ECDLI",
+    image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=800",
+    title: "EL ARTE DE LA ORACIÓN",
+    subtitle: "Cómo hablar con tu propio ser interior.",
+    date: "15 ABRIL",
   },
   {
     id: 3,
-    image: "/images/coaching-mountain.jpg",
-    title: "DATE WITH DESTINY",
-    subtitle: "Create life according to your terms",
-    tag: "ECDLI",
+    image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=800",
+    title: "IMAGINACIÓN DESPIERTA",
+    subtitle: "Sesión intensiva de visualización creativa.",
+    date: "02 MAYO",
   },
   {
     id: 4,
-    image: "/images/event-crowd.jpg",
-    title: "UNLEASH THE POWER WITHIN",
-    subtitle: "Experience explosive growth",
-    tag: "ECDLI",
+    image: "https://images.unsplash.com/photo-1475721027187-402473392430?auto=format&fit=crop&q=80&w=800",
+    title: "CONGRESO ANUAL ECDLI",
+    subtitle: "El encuentro más esperado del año.",
+    date: "20 JUNIO",
   },
 ];
 
 export default function EventsCarousel() {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  const scrollLeft = () => {
-    setCurrentIndex((prev) => Math.max(0, prev - 1));
-  };
+  const scroll = (direction: "left" | "right") => {
+    if (scrollRef.current) {
+      const { scrollLeft, clientWidth } = scrollRef.current;
+      const scrollTo = direction === "left"
+        ? scrollLeft - clientWidth / 2
+        : scrollLeft + clientWidth / 2;
 
-  const scrollRight = () => {
-    setCurrentIndex((prev) => Math.min(events.length - 1, prev + 1));
+      scrollRef.current.scrollTo({ left: scrollTo, behavior: "smooth" });
+    }
   };
 
   return (
-    <section className="bg-black py-10 md:py-20 relative overflow-hidden theme--dark">
-      <div className="wrapper space-y-5 lg:space-y-10 overflow-visible">
-        {/* Header */}
-        <AnimatedSection animation="fade-up" delay={0}>
-          <div className="flex items-center justify-between">
-            <div className="relative flex max-w-md flex-col gap-2.5 md:flex-row md:items-center md:gap-5">
-              <h2 className="text-nowrap text-3xl font-medium tracking-tighter text-white">
-                Events that liberate
-              </h2>
-            </div>
+    <section className="bg-black py-24 relative overflow-hidden">
+      <div className="wrapper">
 
-            <div className="flex items-center gap-4">
-              {/* Discover Link */}
-              <a
-                href="#events"
-                className="group flex gap-2 items-center font-medium opacity-60 hover:opacity-100 duration-500 text-white text-sm hidden md:flex"
-              >
-                Discover events
-                <svg
-                  className="h-5 w-5 fill-current duration-500 group-hover:translate-x-1"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M13.172 12l-4.95-4.95 1.414-1.414L16 12l-6.364 6.364-1.414-1.414z" />
-                </svg>
-              </a>
-
-              {/* Navigation Buttons */}
-              <div className="hidden md:flex gap-2">
-                <button
-                  onClick={scrollLeft}
-                  className="flex aspect-square w-10 items-center justify-center rounded-full bg-white border border-gray-200 text-black duration-500 hover:bg-gray-100"
-                >
-                  <ChevronLeft className="h-5 w-5" />
-                  <span className="sr-only">Previous</span>
-                </button>
-                <button
-                  onClick={scrollRight}
-                  className="flex aspect-square w-10 items-center justify-center rounded-full bg-white border border-gray-200 text-black duration-500 hover:bg-gray-100"
-                >
-                  <ChevronRight className="h-5 w-5" />
-                  <span className="sr-only">Next</span>
-                </button>
-              </div>
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-8">
+          <div className="max-w-xl">
+            <div className="flex items-center gap-2 mb-6">
+              <span className="w-1.5 h-1.5 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
+              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-gray-500 font-bold">
+                Experiencias en Vivo
+              </span>
             </div>
+            <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-white leading-[1.1]">
+              Eventos que <br />
+              <span className="text-white opacity-40">liberan tu mente</span>
+            </h2>
           </div>
-        </AnimatedSection>
 
-        {/* Carousel */}
-        <AnimatedSection animation="fade-up" delay={200}>
-          <div className="overflow-hidden -mx-5 px-5">
-            <div
-              className="flex gap-4 transition-transform duration-500"
-              style={{
-                transform: `translateX(-${currentIndex * 316}px)`,
-              }}
+          <div className="hidden md:flex items-center gap-3">
+            <button
+              onClick={() => scroll("left")}
+              className="w-14 h-14 rounded-full border border-white/5 flex items-center justify-center text-white/20 hover:border-white/20 hover:text-white transition-all"
             >
-              {events.map((event, index) => (
-                <div
-                  key={event.id}
-                  className="flex-shrink-0 w-[300px] cursor-pointer"
-                  style={{
-                    animationDelay: `${index * 100}ms`,
-                  }}
-                >
-                  {/* Card - aspect-portrait rounded-2xl */}
-                  <div className="relative flex aspect-[3/4] items-end overflow-hidden rounded-2xl bg-white/10 text-white group">
-                    {/* Background Image */}
-                    <div
-                      className="absolute inset-0 h-full w-full bg-black bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                      style={{ backgroundImage: `url('${event.image}')` }}
-                    />
-
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-
-                    {/* Content */}
-                    <div className="relative flex w-full flex-col items-center px-10 py-6 text-center">
-                      {/* Event Logo */}
-                      <div className="flex w-full max-w-[160px] items-end overflow-hidden py-5">
-                        <div className="w-full">
-                          <p className="text-white/70 text-xs font-mono uppercase tracking-wide mb-2">
-                            {event.tag}
-                          </p>
-                          <h3 className="text-white text-lg font-medium tracking-tight leading-tight">
-                            {event.title}
-                          </h3>
-                        </div>
-                      </div>
-                      <p className="mb-5 opacity-70 text-sm">{event.subtitle}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+            <button
+              onClick={() => scroll("right")}
+              className="w-14 h-14 rounded-full border border-white/5 flex items-center justify-center text-white/20 hover:border-white/20 hover:text-white transition-all"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
           </div>
-        </AnimatedSection>
+        </div>
 
-        {/* Mobile Link */}
-        <a
-          href="#events"
-          className="flex md:hidden items-center justify-center gap-2 text-white text-sm font-medium opacity-60 hover:opacity-100 duration-500"
+        {/* Carousel Container */}
+        <div
+          ref={scrollRef}
+          className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide -mx-8 px-8 pb-12"
         >
-          Discover events
-          <ChevronRight className="w-4 h-4" />
-        </a>
+          {events.map((event) => (
+            <motion.div
+              key={event.id}
+              whileHover={{ y: -10 }}
+              className="flex-shrink-0 w-[calc(100vw-80px)] md:w-[450px] snap-start cursor-pointer group"
+            >
+              <div className="relative aspect-[4/5] md:aspect-[3/4] rounded-[2.5rem] overflow-hidden bg-white/5 border border-white/5 shadow-2xl">
+                {/* Background Image */}
+                <img
+                  src={event.image}
+                  alt={event.title}
+                  className="absolute inset-0 w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-1000 group-hover:scale-105"
+                />
+
+                {/* Overlays */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80" />
+
+                {/* Content */}
+                <div className="absolute inset-0 p-10 flex flex-col justify-end">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Sparkles className="w-4 h-4 text-white opacity-40" />
+                    <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white opacity-40">
+                      {event.date}
+                    </span>
+                  </div>
+
+                  <h3 className="text-3xl md:text-4xl font-black text-white tracking-tighter mb-4 leading-none">
+                    {event.title}
+                  </h3>
+
+                  <p className="text-gray-400 text-sm font-light leading-relaxed mb-8 max-w-[280px]">
+                    {event.subtitle}
+                  </p>
+
+                  <button className="w-full bg-white/5 backdrop-blur-md border border-white/10 text-white font-black text-[10px] uppercase tracking-[0.3em] py-5 rounded-full hover:bg-white hover:text-black transition-all">
+                    Asegurar Entrada
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Mobile Navigation Hint */}
+        <div className="md:hidden flex justify-center mt-4">
+          <div className="flex gap-1.5">
+            {events.map((_, i) => (
+              <div key={i} className="w-1.5 h-1.5 rounded-full bg-white/10" />
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

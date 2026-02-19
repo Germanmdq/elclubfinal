@@ -44,20 +44,19 @@ export default function ResultsSection() {
         {/* Header */}
         <div className="grid lg:grid-cols-2 gap-12 mb-16">
           <div>
-            <h2 className="text-black text-3xl md:text-4xl lg:text-5xl font-black mb-4">
-              Robbins equals results
+            <h2 className="text-black text-3xl md:text-4xl lg:text-7xl font-black mb-8 tracking-tighter">
+              Imaginación es realidad
             </h2>
-            <p className="text-gray-600 text-lg">
-              Join over 100 million people around the world who are achieving
-              the extraordinary with Tony's tools. Their stories paint the
-              picture of what's possible for you, too.
+            <p className="text-gray-500 text-lg md:text-xl font-light leading-relaxed">
+              Unite a miles de investigadores de la consciencia que están logrando
+              lo extraordinario mediante el poder de la asunción.
             </p>
           </div>
 
           <div>
-            <p className="text-gray-600 text-sm mb-6">
-              A study from Stanford University's Snyder Lab of Genetics revealed
-              lasting benefits for event attendees including:
+            <p className="text-gray-500 text-sm mb-8 font-light">
+              Nuestras enseñanzas se basan en la experiencia directa y los resultados
+              verificables en la vida de nuestros miembros:
             </p>
 
             {/* Statistics */}
@@ -67,9 +66,9 @@ export default function ResultsSection() {
                   300%
                 </span>
                 <p className="text-gray-600 text-sm mt-2">
-                  increase in cognitive
+                  aumento en el rendimiento
                   <br />
-                  performance
+                  cognitivo
                 </p>
               </div>
               <div>
@@ -116,7 +115,7 @@ export default function ResultsSection() {
               {/* Content */}
               <div className="absolute bottom-0 left-0 right-0 p-4">
                 <p className="text-white text-sm italic mb-2 line-clamp-2">
-                  "{testimonial.quote}"
+                  "{testimonial.quote || 'Esta enseñanza cambió mi percepción de la realidad por completo.'}"
                 </p>
                 <p className="text-white/80 text-xs">
                   {testimonial.name}, {testimonial.title}

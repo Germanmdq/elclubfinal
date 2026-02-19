@@ -47,7 +47,7 @@ export default function AboutSection() {
                 {featuredLogos.map((logo) => (
                   <span
                     key={logo.name}
-                    className="text-black/40 text-xl md:text-2xl font-serif italic"
+                    className="text-black/40 text-xl md:text-2xl font-black uppercase tracking-widest"
                   >
                     {logo.text}
                   </span>

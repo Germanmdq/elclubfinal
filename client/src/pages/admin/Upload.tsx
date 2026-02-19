@@ -52,7 +52,7 @@ export default function Upload() {
     };
 
     return (
-        <div className="min-h-screen bg-[#0a0a0a] text-white font-sans selection:bg-[#3ceba0] selection:text-black">
+        <div className="min-h-screen bg-[#0a0a0a] text-white font-sans selection:bg-[#a855f7] selection:text-black">
             <Header />
 
             <div className="pt-32 pb-16 wrapper">
@@ -67,7 +67,7 @@ export default function Upload() {
                         <button
                             onClick={handleSubmit}
                             disabled={loading}
-                            className="bg-[#3ceba0] text-black px-6 py-2 rounded-full font-bold hover:bg-[#3ceba0]/90 transition-colors flex items-center gap-2 disabled:opacity-50"
+                            className="bg-[#a855f7] text-black px-6 py-2 rounded-full font-bold hover:bg-[#a855f7]/90 transition-colors flex items-center gap-2 disabled:opacity-50"
                         >
                             {loading ? "Subiendo..." : <><UploadIcon className="w-4 h-4" /> Publicar</>}
                         </button>
@@ -81,7 +81,7 @@ export default function Upload() {
                                     name="title"
                                     value={formData.title}
                                     onChange={handleChange}
-                                    className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-[#3ceba0] outline-none"
+                                    className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-white/10 outline-none"
                                     placeholder="Ej: Revelación del Propósito"
                                 />
                             </div>
@@ -91,7 +91,7 @@ export default function Upload() {
                                     name="subtitle"
                                     value={formData.subtitle}
                                     onChange={handleChange}
-                                    className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-[#3ceba0] outline-none"
+                                    className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-white/10 outline-none"
                                     placeholder="Ej: Conferencias de Neville Goddard"
                                 />
                             </div>
@@ -101,7 +101,7 @@ export default function Upload() {
                                     name="author"
                                     value={formData.author}
                                     onChange={handleChange}
-                                    className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-[#3ceba0] outline-none"
+                                    className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-white/10 outline-none"
                                 >
                                     <option value="Neville Goddard">Neville Goddard</option>
                                     <option value="Joseph Murphy">Joseph Murphy</option>
@@ -117,7 +117,7 @@ export default function Upload() {
                                     name="category"
                                     value={formData.category}
                                     onChange={handleChange}
-                                    className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-[#3ceba0] outline-none"
+                                    className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-white/10 outline-none"
                                 >
                                     <option value="Nuevo Pensamiento">Nuevo Pensamiento</option>
                                     <option value="Metafísica">Metafísica</option>
@@ -131,7 +131,7 @@ export default function Upload() {
                                     name="date"
                                     value={formData.date}
                                     onChange={handleChange}
-                                    className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-[#3ceba0] outline-none"
+                                    className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-white/10 outline-none"
                                 />
                             </div>
                             <div>
@@ -140,7 +140,7 @@ export default function Upload() {
                                     name="readTime"
                                     value={formData.readTime}
                                     onChange={handleChange}
-                                    className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-[#3ceba0] outline-none"
+                                    className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-white/10 outline-none"
                                     placeholder="Ej: 15 min"
                                 />
                             </div>
@@ -154,7 +154,7 @@ export default function Upload() {
                                 name="content"
                                 value={formData.content}
                                 onChange={handleChange}
-                                className="w-full h-64 bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-[#3ceba0] outline-none font-mono text-sm"
+                                className="w-full h-64 bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-white/10 outline-none font-mono text-sm"
                                 placeholder="# Título..."
                             />
                         </div>
@@ -165,7 +165,7 @@ export default function Upload() {
                                 name="summary"
                                 value={formData.summary}
                                 onChange={handleChange}
-                                className="w-full h-32 bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-[#3ceba0] outline-none"
+                                className="w-full h-32 bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-white/10 outline-none"
                             />
                         </div>
 
@@ -176,7 +176,7 @@ export default function Upload() {
                                     name="studyGuide"
                                     value={formData.studyGuide}
                                     onChange={handleChange}
-                                    className="w-full h-32 bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-[#3ceba0] outline-none"
+                                    className="w-full h-32 bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-white/10 outline-none"
                                 />
                             </div>
                             <div>
@@ -185,7 +185,7 @@ export default function Upload() {
                                     name="analysis"
                                     value={formData.analysis}
                                     onChange={handleChange}
-                                    className="w-full h-32 bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-[#3ceba0] outline-none"
+                                    className="w-full h-32 bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-white/10 outline-none"
                                 />
                             </div>
                         </div>

@@ -1,230 +1,178 @@
-
-import React from 'react';
-import { Link } from "wouter";
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from "wouter";
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { getFavorites, type Favorite } from '@/lib/supabase';
+import {
+    Bookmark,
+    Sparkles,
+    Loader2,
+    Settings,
+    Star,
+    BookOpen,
+    ArrowRight
+} from "lucide-react";
+import { navigateWithTransition } from "@/lib/transitions";
+import { motion } from "framer-motion";
 
 const Dashboard = () => {
+    const [favorites, setFavorites] = useState<Favorite[]>([]);
+    const [loading, setLoading] = useState(true);
+    const mockUserId = "user_123";
+    const [, setLocation] = useLocation();
+
+    useEffect(() => {
+        const fetchFavorites = async () => {
+            try {
+                const data = await getFavorites(mockUserId);
+                setFavorites(data || []);
+            } catch (error) {
+                console.error("Error fetching favorites:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchFavorites();
+    }, []);
+
+    const handleNavigate = (contentId: string) => {
+        navigateWithTransition(() => {
+            setLocation(`/biblioteca/texto/${contentId}`);
+        });
+    };
+
     return (
-        <div className="min-h-screen bg-[#f6f8f7] dark:bg-[#0a0a0a] text-white font-sans selection:bg-[#2965ff] selection:text-[#0a0a0a]">
-            {/* Top Navigation Bar - Replaced with Global Header */}
+        <div className="min-h-screen bg-black text-white selection:bg-white/30">
             <Header />
 
-            {/* Added pt-24 (padding-top) to prevent content being hidden behind the fixed header */}
-            <main className="max-w-[1200px] mx-auto px-6 py-10 pt-32 space-y-12">
-                {/* Profile Header Section */}
-                <section className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-                    <div className="flex items-center gap-6">
-                        <div className="h-24 w-24 rounded-2xl bg-gradient-to-br from-[#2965ff] to-blue-500 p-1">
-                            <div
-                                className="w-full h-full rounded-[14px] bg-[#0a0a0a] bg-center bg-cover"
-                                style={{ backgroundImage: "url('https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80')" }}
-                            ></div>
-                        </div>
-                        <div>
-                            <h1 className="text-[1.875rem] leading-[2.25rem] font-bold text-white">Miembro del Club</h1>
-                            <div className="flex items-center gap-3 mt-1">
-                                <p className="text-white/60 text-base">usuario@ejemplo.com</p>
-                                <span className="w-1 h-1 rounded-full bg-white/20"></span>
-                                <div className="flex items-center gap-1.5">
-                                    <span className="text-xs uppercase tracking-[0.05em] text-[#a1a1aa] font-semibold">Plan Actual:</span>
-                                    <span className="text-[#2965ff] text-xs font-bold px-2 py-0.5 rounded-full bg-[#2965ff]/10 border border-[#2965ff]/20">SUSCRIPTOR</span>
+            <main className="pt-40 pb-32">
+                <div className="wrapper">
+                    <div className="content-focused">
+
+                        {/* Apple-style Header */}
+                        <header className="mb-20">
+                            <motion.div
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="flex items-center gap-2 mb-6"
+                            >
+                                <span className="w-1.5 h-1.5 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
+                                <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-gray-500 font-bold">
+                                    Portal Personal
+                                </span>
+                            </motion.div>
+
+                            <div className="flex flex-col md:flex-row justify-between items-end gap-8">
+                                <div>
+                                    <h1 className="text-5xl md:text-7xl font-extrabold tracking-tighter mb-4">
+                                        Hola, <span className="text-white opacity-40">Explorador</span>
+                                    </h1>
+                                    <p className="text-gray-500 text-lg font-light tracking-tight">
+                                        Tu progreso y tus enseñanzas guardadas en un solo lugar.
+                                    </p>
                                 </div>
+                                <button className="btn-secondary px-6 py-3 text-[10px] flex items-center gap-2">
+                                    <Settings className="w-4 h-4" />
+                                    Ajustes de Perfil
+                                </button>
+                            </div>
+                        </header>
+
+                        {/* Quick Stats Grid - Apple Style */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-24">
+                            <div className="bg-white/[0.03] border border-white/5 rounded-[2rem] p-10 backdrop-blur-3xl hover:bg-white/[0.05] transition-all group">
+                                <Star className="w-6 h-6 text-white opacity-40 mb-6 group-hover:opacity-100 transition-opacity" />
+                                <div className="flex items-baseline gap-3 mb-2">
+                                    <span className="text-5xl font-black tracking-tighter">{favorites.length}</span>
+                                    <span className="text-gray-500 font-bold text-[10px] uppercase tracking-widest">Favoritos</span>
+                                </div>
+                                <p className="text-gray-500 text-sm font-light">Enseñanzas guardadas para estudio profundo.</p>
+                            </div>
+
+                            <div className="bg-white/[0.03] border border-white/5 rounded-[2rem] p-10 backdrop-blur-3xl hover:bg-white/[0.05] transition-all group overflow-hidden relative">
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 blur-[60px] pointer-events-none" />
+                                <Sparkles className="w-6 h-6 text-white opacity-40 mb-6 group-hover:opacity-100 transition-opacity" />
+                                <div className="flex items-baseline gap-3 mb-2">
+                                    <span className="text-5xl font-black tracking-tighter">VIP</span>
+                                    <span className="text-gray-500 font-bold text-[10px] uppercase tracking-widest">Nivel de Acceso</span>
+                                </div>
+                                <p className="text-gray-500 text-sm font-light">Acceso total a la Videoteca y Foros exclusivos.</p>
                             </div>
                         </div>
-                    </div>
-                    <div className="flex gap-4 w-full md:w-auto">
-                        <button className="flex-1 md:flex-none px-6 py-2.5 rounded-lg text-sm bg-white text-[#0a0a0a] font-semibold transition-transform active:scale-95 hover:bg-white/90">Editar Perfil</button>
-                        <button className="flex-1 md:flex-none px-6 py-2.5 rounded-lg text-sm bg-[#2965ff] text-white font-semibold transition-transform active:scale-95 hover:bg-[#2965ff]/90">Mejorar Plan</button>
-                    </div>
-                </section>
 
-                {/* Stats Row */}
-                <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div className="bg-white/[0.03] border border-white/10 backdrop-blur-[8px] hover:border-[#2965ff] transition-colors duration-200 p-6 rounded-xl flex flex-col gap-4">
-                        <div className="flex justify-between items-start">
-                            <p className="text-xs uppercase tracking-[0.05em] text-[#a1a1aa] font-semibold">Créditos de Tutor</p>
-                            <span className="material-symbols-outlined text-[#2965ff]">token</span>
-                        </div>
-                        <div>
-                            <h3 className="text-4xl font-bold text-white tracking-tight">1,240<span className="text-white/20 text-lg font-medium ml-2">/ 5,000</span></h3>
-                            <p className="text-[#2965ff] text-sm mt-2 flex items-center gap-1">
-                                <span className="material-symbols-outlined text-xs">trending_up</span>
-                                +12% este mes
-                            </p>
-                        </div>
-                    </div>
-                    <div className="bg-white/[0.03] border border-white/10 backdrop-blur-[8px] hover:border-[#2965ff] transition-colors duration-200 p-6 rounded-xl flex flex-col gap-4">
-                        <div className="flex justify-between items-start">
-                            <p className="text-xs uppercase tracking-[0.05em] text-[#a1a1aa] font-semibold">Libros Leídos</p>
-                            <span className="material-symbols-outlined text-white/60">auto_stories</span>
-                        </div>
-                        <div>
-                            <h3 className="text-4xl font-bold text-white tracking-tight">42</h3>
-                            <p className="text-white/40 text-sm mt-2 flex items-center gap-1">
-                                3 pendientes de reseña
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Next Meeting Card - Highlighted */}
-                    <div className="bg-[#2965ff]/10 border border-[#2965ff]/20 backdrop-blur-[8px] hover:border-[#2965ff] transition-colors duration-200 p-6 rounded-xl flex flex-col gap-4 relative overflow-hidden">
-                        <div className="absolute top-0 right-0 w-16 h-16 bg-[#2965ff]/10 rounded-bl-full -mr-4 -mt-4"></div>
-                        <div className="flex justify-between items-start relative z-10">
-                            <p className="text-xs uppercase tracking-[0.05em] text-[#2965ff] font-bold">Próxima Reunión</p>
-                            <div className="animate-pulse">
-                                <span className="material-symbols-outlined text-[#2965ff] fill-1">videocam</span>
+                        {/* Favorites Section - Unified List */}
+                        <section>
+                            <div className="flex items-center justify-between mb-10">
+                                <h2 className="text-2xl font-black tracking-tight">Tus Enseñanzas Guardadas</h2>
+                                <Link href="/biblioteca" className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 hover:text-white transition-all underline underline-offset-8 decoration-white/10">
+                                    Explorar Biblioteca
+                                </Link>
                             </div>
-                        </div>
-                        <div className="relative z-10">
-                            <h3 className="text-xl font-bold text-white tracking-tight">Jueves 20:00hs</h3>
-                            <a href="#" className="inline-flex items-center gap-2 text-white bg-[#2965ff] hover:bg-[#2965ff]/90 text-xs font-bold px-3 py-2 rounded-lg mt-3 transition-colors">
-                                <span>UNIRSE AHORA</span>
-                                <span className="material-symbols-outlined text-sm">open_in_new</span>
-                            </a>
-                        </div>
-                    </div>
 
-                    <div className="bg-white/[0.03] border border-white/10 backdrop-blur-[8px] hover:border-[#2965ff] transition-colors duration-200 p-6 rounded-xl flex flex-col gap-4">
-                        <div className="flex justify-between items-start">
-                            <p className="text-xs uppercase tracking-[0.05em] text-[#a1a1aa] font-semibold">Racha Lectora</p>
-                            <span className="material-symbols-outlined text-white/60">local_fire_department</span>
-                        </div>
-                        <div>
-                            <h3 className="text-4xl font-bold text-white tracking-tight">12<span className="text-lg font-medium"> días</span></h3>
-                            <p className="text-white/40 text-sm mt-2 flex items-center gap-1">
-                                ¡Sigue leyendo!
-                            </p>
-                        </div>
-                    </div>
-                </section>
-
-                {/* Main Content Sections */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* Consultation History */}
-                    <section className="lg:col-span-2 space-y-4">
-                        <div className="flex items-center justify-between px-1">
-                            <h2 className="text-xl font-bold text-white">Actividad Reciente</h2>
-                            <a href="#" className="text-[#2965ff] text-sm font-medium hover:underline">Ver todo</a>
-                        </div>
-                        <div className="bg-white/[0.03] border border-white/10 backdrop-blur-[8px] rounded-xl overflow-hidden">
-                            <div className="overflow-x-auto">
-                                <table className="w-full text-left">
-                                    <thead className="bg-white/5 border-b border-white/10">
-                                        <tr>
-                                            <th className="px-6 py-4 text-xs uppercase tracking-[0.05em] text-[#a1a1aa] font-semibold">Fecha</th>
-                                            <th className="px-6 py-4 text-xs uppercase tracking-[0.05em] text-[#a1a1aa] font-semibold">Actividad</th>
-                                            <th className="px-6 py-4 text-xs uppercase tracking-[0.05em] text-[#a1a1aa] font-semibold">Estado</th>
-                                            <th className="px-6 py-4 text-xs uppercase tracking-[0.05em] text-[#a1a1aa] font-semibold text-right">Acción</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-white/5">
-                                        <tr className="hover:bg-white/[0.02] transition-colors group">
-                                            <td className="px-6 py-5 text-white/60 text-sm">Hoy</td>
-                                            <td className="px-6 py-5 text-white font-medium">Lectura: "Ficciones"</td>
-                                            <td className="px-6 py-5">
-                                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#2965ff]/10 text-[#2965ff] border border-[#2965ff]/20">En Progreso</span>
-                                            </td>
-                                            <td className="px-6 py-5 text-right">
-                                                <button className="text-white/40 group-hover:text-[#2965ff] transition-colors text-sm font-bold">LEER</button>
-                                            </td>
-                                        </tr>
-                                        <tr className="hover:bg-white/[0.02] transition-colors group">
-                                            <td className="px-6 py-5 text-white/60 text-sm">Ayer</td>
-                                            <td className="px-6 py-5 text-white font-medium">Comentario en Foro: "Realismo Mágico"</td>
-                                            <td className="px-6 py-5">
-                                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">Publicado</span>
-                                            </td>
-                                            <td className="px-6 py-5 text-right">
-                                                <button className="text-white/40 group-hover:text-[#2965ff] transition-colors text-sm font-bold">VER</button>
-                                            </td>
-                                        </tr>
-                                        <tr className="hover:bg-white/[0.02] transition-colors group">
-                                            <td className="px-6 py-5 text-white/60 text-sm">20 Oct</td>
-                                            <td className="px-6 py-5 text-white font-medium">Asistencia: Taller de Borges</td>
-                                            <td className="px-6 py-5">
-                                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#2965ff]/10 text-[#2965ff] border border-[#2965ff]/20">Completado</span>
-                                            </td>
-                                            <td className="px-6 py-5 text-right">
-                                                <button className="text-white/40 group-hover:text-[#2965ff] transition-colors text-sm font-bold">VER GRABACIÓN</button>
-                                            </td>
-                                        </tr>
-                                        <tr className="hover:bg-white/[0.02] transition-colors group">
-                                            <td className="px-6 py-5 text-white/60 text-sm">15 Oct</td>
-                                            <td className="px-6 py-5 text-white font-medium">Chat con Tutor IA: "Estructura Narrativa"</td>
-                                            <td className="px-6 py-5">
-                                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#2965ff]/10 text-[#2965ff] border border-[#2965ff]/20">Completado</span>
-                                            </td>
-                                            <td className="px-6 py-5 text-right">
-                                                <button className="text-white/40 group-hover:text-[#2965ff] transition-colors text-sm font-bold">CONTINUAR</button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* Favorites */}
-                    <section className="space-y-4">
-                        <div className="flex items-center justify-between px-1">
-                            <h2 className="text-xl font-bold text-white">Accesos Directos</h2>
-                            <button className="p-1 hover:bg-white/5 rounded">
-                                <span className="material-symbols-outlined text-white/60">add</span>
-                            </button>
-                        </div>
-                        <div className="space-y-3">
-                            <button className="w-full py-3 rounded-xl border border-dashed border-white/20 text-white/40 text-sm font-medium hover:border-[#2965ff]/40 hover:text-white transition-colors cursor-pointer">
-                                Administrar Marcadores
-                            </button>
-                            <div className="bg-white/[0.03] border border-white/10 backdrop-filter backdrop-blur-[8px] hover:border-[#2965ff] transition-colors duration-200 p-4 rounded-xl flex items-center gap-4 cursor-pointer group">
-                                <div className="h-12 w-12 rounded-lg bg-white/5 flex items-center justify-center text-[#2965ff] group-hover:bg-[#2965ff]/20 transition-colors">
-                                    <span className="material-symbols-outlined">library_books</span>
-                                </div>
-                                <div className="flex-1">
-                                    <h4 className="text-white font-medium text-sm">Biblioteca Digital</h4>
-                                    <p className="text-white/40 text-xs">Acceder a lecturas</p>
-                                </div>
-                                <span className="material-symbols-outlined text-[#2965ff] fill-1">arrow_forward_ios</span>
-                            </div>
-                            <div className="bg-white/[0.03] border border-white/10 backdrop-filter backdrop-blur-[8px] hover:border-[#2965ff] transition-colors duration-200 p-4 rounded-xl flex items-center gap-4 cursor-pointer group">
-                                <div className="h-12 w-12 rounded-lg bg-white/5 flex items-center justify-center text-blue-400 group-hover:bg-blue-400/20 transition-colors">
-                                    <span className="material-symbols-outlined">video_library</span>
-                                </div>
-                                <div className="flex-1">
-                                    <h4 className="text-white font-medium text-sm">Grabaciones Talleres</h4>
-                                    <p className="text-white/40 text-xs">Ver clases pasadas</p>
-                                </div>
-                                <span className="material-symbols-outlined text-[#2965ff] fill-1">arrow_forward_ios</span>
-                            </div>
-                            <Link href="/foro">
-                                <div className="bg-white/[0.03] border border-white/10 backdrop-filter backdrop-blur-[8px] hover:border-[#2965ff] transition-colors duration-200 p-4 rounded-xl flex items-center gap-4 cursor-pointer group">
-                                    <div className="h-12 w-12 rounded-lg bg-white/5 flex items-center justify-center text-orange-400 group-hover:bg-orange-400/20 transition-colors">
-                                        <span className="material-symbols-outlined">forum</span>
+                            <div className="space-y-4">
+                                {loading ? (
+                                    <div className="flex flex-col items-center justify-center py-32 bg-white/[0.02] border border-dashed border-white/10 rounded-[2rem]">
+                                        <Loader2 className="w-8 h-8 text-white/20 animate-spin mb-4" />
+                                        <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-600">Actualizando archivo...</p>
                                     </div>
-                                    <div className="flex-1">
-                                        <h4 className="text-white font-medium text-sm">Foro de Discusión</h4>
-                                        <p className="text-white/40 text-xs">Comunidad de lectores</p>
+                                ) : favorites.length > 0 ? (
+                                    favorites.map((fav, idx) => (
+                                        <motion.div
+                                            key={fav.content_id}
+                                            initial={{ opacity: 0, x: -10 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            transition={{ delay: idx * 0.05 }}
+                                            onClick={() => handleNavigate(fav.content_id)}
+                                            className="group bg-white/[0.03] border border-white/5 p-6 rounded-[1.5rem] flex items-center gap-8 cursor-pointer hover:bg-white/[0.06] hover:border-white/10 transition-all duration-500"
+                                        >
+                                            <div className="h-16 w-16 rounded-2xl bg-black overflow-hidden flex-shrink-0 border border-white/10">
+                                                {fav.image ? (
+                                                    <img
+                                                        src={fav.image}
+                                                        alt={fav.title}
+                                                        className="h-full w-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700"
+                                                    />
+                                                ) : (
+                                                    <div className="h-full w-full flex items-center justify-center">
+                                                        <Bookmark className="w-5 h-5 text-white/10" />
+                                                    </div>
+                                                )}
+                                            </div>
+
+                                            <div className="flex-1 min-w-0">
+                                                <div className="flex items-center gap-3 mb-2">
+                                                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30">Enseñanza</span>
+                                                    <div className="w-1 h-1 rounded-full bg-white/10" />
+                                                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">Neville Goddard</span>
+                                                </div>
+                                                <h4 className="text-white font-bold text-lg tracking-tight group-hover:text-white transition-colors truncate">
+                                                    {fav.title}
+                                                </h4>
+                                            </div>
+
+                                            <div className="w-12 h-12 rounded-full border border-white/5 flex items-center justify-center text-white/10 group-hover:border-white/20 group-hover:text-white transition-all">
+                                                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                                            </div>
+                                        </motion.div>
+                                    ))
+                                ) : (
+                                    <div className="py-32 text-center bg-white/[0.02] border border-dashed border-white/10 rounded-[3rem] group">
+                                        <Bookmark className="w-10 h-10 text-white/5 mx-auto mb-8 group-hover:scale-110 transition-transform duration-500" />
+                                        <h3 className="text-xl font-bold mb-4 tracking-tight">Tu cofre está vacío</h3>
+                                        <p className="text-gray-600 text-sm font-light mb-12 max-w-xs mx-auto">Explorá el archivo y guardá las enseñanzas que resuenen con tu propósito.</p>
+                                        <Link href="/biblioteca">
+                                            <button className="btn-primary">
+                                                Comenzar Exploración
+                                            </button>
+                                        </Link>
                                     </div>
-                                    <span className="material-symbols-outlined text-[#2965ff] fill-1">arrow_forward_ios</span>
-                                </div>
-                            </Link>
-                            <div className="bg-white/[0.03] border border-white/10 backdrop-filter backdrop-blur-[8px] hover:border-[#2965ff] transition-colors duration-200 p-4 rounded-xl flex items-center gap-4 cursor-pointer group">
-                                <div className="h-12 w-12 rounded-lg bg-white/5 flex items-center justify-center text-purple-400 group-hover:bg-purple-400/20 transition-colors">
-                                    <span className="material-symbols-outlined">smart_toy</span>
-                                </div>
-                                <div className="flex-1">
-                                    <h4 className="text-white font-medium text-sm">Tutor IA Neville</h4>
-                                    <p className="text-white/40 text-xs">Consultas literarias</p>
-                                </div>
-                                <span className="material-symbols-outlined text-[#2965ff] fill-1">arrow_forward_ios</span>
+                                )}
                             </div>
-                        </div>
-                    </section>
+                        </section>
+                    </div>
                 </div>
             </main>
 
-            {/* Footer - Replaced with Global Footer */}
             <Footer />
         </div>
     );

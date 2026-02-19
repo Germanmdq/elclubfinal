@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Search, ChevronDown, Menu, X, User } from "lucide-react";
 import { Link, useLocation } from "wouter";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface SubMenuItem {
   label: string;
@@ -17,23 +18,8 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   {
-    label: "Sitio",
-    href: "/",
-    hasDropdown: false,
-  },
-  {
-    label: "Panel",
-    href: "/dashboard",
-    hasDropdown: false,
-  },
-  {
-    label: "Eventos",
-    href: "/eventos",
-    hasDropdown: false,
-  },
-  {
-    label: "Testimonios",
-    href: "/testimonios",
+    label: "Biblioteca",
+    href: "/biblioteca",
     hasDropdown: false,
   },
   {
@@ -42,247 +28,129 @@ const navItems: NavItem[] = [
     hasDropdown: false,
   },
   {
-    label: "Foro",
-    href: "/foro",
-    hasDropdown: true,
-    subItems: [
-      { label: "Inicio", href: "/foro", description: "Vista principal" },
-      { label: "Ejemplo de Tema", href: "/foro/tema/1", description: "Plantilla de discusión" },
-    ]
-  },
-  {
-    label: "N. Aggiornado",
-    href: "/biblioteca/100",
+    label: "Eventos",
+    href: "/eventos",
     hasDropdown: false,
   },
   {
-    label: "Explorar",
-    href: "#explore",
-    hasDropdown: true,
-    subItems: [
-      { label: "Biblioteca", href: "/biblioteca", description: "Artículos y recursos" },
-      { label: "Texto del Post", href: "/biblioteca/texto/personajes-inolvidables", description: "Lectura de hoy" },
-      { label: "Podcast", href: "#podcast", description: "Escucha a expertos" },
-      { label: "Talleres", href: "#workshops", description: "Grabaciones de eventos" },
-    ],
-  },
+    label: "Foro",
+    href: "/foro",
+    hasDropdown: false,
+  }
 ];
 
 export default function Header() {
-  const [location, setLocation] = useLocation();
+  const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [mobileActiveDropdown, setMobileActiveDropdown] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      setScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [mobileMenuOpen]);
-
-  const handleMouseEnter = (label: string) => {
-    setActiveDropdown(label);
-  };
-
-  const handleMouseLeave = () => {
-    setActiveDropdown(null);
-  };
-
-  const toggleMobileDropdown = (label: string) => {
-    setMobileActiveDropdown(mobileActiveDropdown === label ? null : label);
-  };
-
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-black/95 backdrop-blur-sm" : "bg-transparent"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "py-4" : "py-8"
         }`}
     >
       <div className="wrapper">
-        <div className="flex items-center justify-between h-[72px]">
-          {/* Logo */}
-          <Link href="/" className="flex items-center">
-            <span className="text-white font-medium text-base tracking-[0.15em] uppercase cursor-pointer">
+        <div className={`relative flex items-center justify-between px-8 h-[64px] rounded-full transition-all duration-700 ${scrolled ? "bg-white/[0.03] backdrop-blur-3xl border border-white/5 shadow-[0_20px_40px_rgba(0,0,0,0.3)]" : "bg-transparent border-transparent"
+          }`}>
+
+          {/* Logo - Minimal Apple Style */}
+          <Link href="/" className="relative z-10">
+            <span className="text-white font-black text-lg tracking-[-0.05em] uppercase cursor-pointer hover:opacity-70 transition-opacity">
               ECDLI
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1">
+          {/* Desktop Navigation - Centered & Clean */}
+          <nav className="hidden lg:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
             {navItems.map((item) => (
-              <div
-                key={item.label}
-                className="relative"
-                onMouseEnter={() => handleMouseEnter(item.label)}
-                onMouseLeave={handleMouseLeave}
-              >
-                <Link
-                  href={item.href}
-                >
-                  <span className="group flex items-center gap-1.5 px-3 py-2 text-white text-[13px] font-medium tracking-wide hover:opacity-70 transition-opacity duration-300 cursor-pointer">
-                    {item.label}
-                    {item.hasDropdown && (
-                      <ChevronDown
-                        className={`w-3.5 h-3.5 opacity-60 transition-all duration-300 ${activeDropdown === item.label ? "rotate-180 opacity-100" : ""
-                          }`}
-                      />
-                    )}
-                  </span>
-                </Link>
-
-                {/* Dropdown Menu */}
-                {item.hasDropdown && item.subItems && (
-                  <div
-                    className={`absolute top-full left-0 pt-2 transition-all duration-300 ${activeDropdown === item.label
-                      ? "opacity-100 visible translate-y-0"
-                      : "opacity-0 invisible -translate-y-2"
-                      }`}
-                  >
-                    <div className="bg-black/95 backdrop-blur-md rounded-xl border border-white/10 p-2 min-w-[280px] shadow-2xl">
-                      {item.subItems.map((subItem) => (
-                        <Link
-                          key={subItem.label}
-                          href={subItem.href}
-                        >
-                          <div className="flex flex-col gap-0.5 px-4 py-3 rounded-lg hover:bg-white/5 transition-colors duration-200 cursor-pointer">
-                            <span className="text-white text-sm font-medium">
-                              {subItem.label}
-                            </span>
-                            {subItem.description && (
-                              <span className="text-white/50 text-[11px]">
-                                {subItem.description}
-                              </span>
-                            )}
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
+              <Link key={item.label} href={item.href}>
+                <span className={`text-[11px] font-bold uppercase tracking-[0.2em] transition-all cursor-pointer hover:text-white ${location === item.href ? "text-white" : "text-gray-500"
+                  }`}>
+                  {item.label}
+                </span>
+              </Link>
             ))}
           </nav>
 
-          {/* Right Side Actions */}
-          <div className="flex items-center gap-2">
-            <button className="hidden md:flex items-center justify-center w-9 h-9 text-white hover:opacity-70 transition-opacity duration-300">
+          {/* Right Actions */}
+          <div className="flex items-center gap-4 relative z-10">
+            <button className="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-white transition-colors">
               <Search className="w-5 h-5" />
             </button>
 
-            <button className="hidden md:flex items-center justify-center w-9 h-9 text-white hover:opacity-70 transition-opacity duration-300">
-              <User className="w-5 h-5" />
-            </button>
-
             <Link href="/dashboard">
-              <span className="hidden md:inline-flex items-center justify-center gap-2 font-medium text-center tracking-wide rounded-full duration-500 border border-white bg-white hover:bg-white/90 text-black text-xs py-2.5 px-5 cursor-pointer">
-                Mi Cuenta
-              </span>
+              <button className="bg-white text-black font-black text-[10px] uppercase tracking-[0.2em] px-6 py-2.5 rounded-full hover:bg-white/90 transition-all active:scale-95">
+                Dashboard
+              </button>
             </Link>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Toggle */}
             <button
-              className="lg:hidden flex items-center justify-center w-10 h-10 text-white z-[60]"
+              className="lg:hidden w-10 h-10 flex items-center justify-center text-white"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              {mobileMenuOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
-      {mobileMenuOpen && (
-        <div
-          className="lg:hidden fixed inset-0 z-[55] bg-black/95 backdrop-blur-md transition-all duration-500"
-          style={{ top: '72px' }}
-        >
-          <div className="flex flex-col h-[calc(100vh-72px)] px-6 py-6 overflow-y-auto">
-            <nav className="flex flex-col gap-1">
-              {navItems.map((item) => (
-                <div key={item.label} className="border-b border-white/5 last:border-none">
-                  {item.hasDropdown ? (
-                    <>
-                      <button
-                        className="flex items-center justify-between w-full py-4 text-white text-lg font-medium tracking-wide"
-                        onClick={() => toggleMobileDropdown(item.label)}
-                      >
-                        <span className="flex items-center gap-2">{item.label}</span>
-                        <ChevronDown
-                          className={`w-5 h-5 opacity-60 transition-transform duration-300 ${mobileActiveDropdown === item.label ? "rotate-180" : ""
-                            }`}
-                        />
-                      </button>
-
-                      {/* Mobile Submenu */}
-                      <div
-                        className={`overflow-hidden transition-all duration-300 ${mobileActiveDropdown === item.label
-                          ? "max-h-96 opacity-100 mb-4"
-                          : "max-h-0 opacity-0"
-                          }`}
-                      >
-                        <div className="flex flex-col gap-4 pl-4 pb-2">
-                          {item.subItems?.map((subItem) => (
-                            <Link
-                              key={subItem.label}
-                              href={subItem.href}
-                            >
-                              <span
-                                className="block text-white/70 text-base font-medium hover:text-white transition-colors cursor-pointer"
-                                onClick={() => setMobileMenuOpen(false)}
-                              >
-                                {subItem.label}
-                              </span>
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    <Link
-                      href={item.href}
-                    >
-                      <span
-                        className="flex items-center justify-between w-full py-4 text-white text-lg font-medium tracking-wide cursor-pointer"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        {item.label}
-                      </span>
-                    </Link>
-                  )}
-                </div>
-              ))}
-            </nav>
-
-            <div className="mt-auto pt-8">
-              <Link href="/dashboard">
-                <span
-                  className="flex items-center justify-center w-full gap-2 font-medium text-center tracking-wide rounded-full border border-white bg-white hover:bg-white/90 text-black text-base py-4 px-6 cursor-pointer"
-                  onClick={() => setMobileMenuOpen(false)}
+      {/* Mobile Menu - Immersive Apple Style */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="lg:hidden fixed inset-0 z-40 bg-black/98 backdrop-blur-3xl pt-32 px-12"
+          >
+            <nav className="flex flex-col gap-12">
+              {navItems.map((item, idx) => (
+                <motion.div
+                  key={item.label}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: idx * 0.1 }}
                 >
-                  Mi Cuenta
-                </span>
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
+                  <Link href={item.href}>
+                    <span
+                      className="text-4xl font-extrabold tracking-tighter text-white hover:opacity-50 transition-opacity"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {item.label}
+                    </span>
+                  </Link>
+                </motion.div>
+              ))}
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="mt-12 pt-12 border-t border-white/5"
+              >
+                <Link href="/dashboard">
+                  <span
+                    className="text-lg font-bold text-purple-400"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Ir a mi Dashboard →
+                  </span>
+                </Link>
+              </motion.div>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

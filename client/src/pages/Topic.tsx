@@ -166,7 +166,7 @@ const Topic = () => {
                                 </div>
                                 <div className="flex justify-between items-center">
                                     <span className="text-sm text-slate-400">Estado</span>
-                                    <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded font-bold uppercase">Activo</span>
+                                    <span className="text-[10px] bg-white/5 border border-white/10 text-gray-400 px-2 py-0.5 rounded font-bold uppercase tracking-wider">Activo</span>
                                 </div>
                             </div>
                             <button className="w-full mt-6 py-2.5 bg-[#2965ff] text-white rounded-lg font-bold text-sm shadow-lg hover:bg-[#2965ff]/90 transition-colors">

@@ -27,7 +27,7 @@ function Router() {
       <Route path={"/foro"} component={Forum} />
       <Route path={"/foro/tema/:id"} component={Topic} />
       <Route path={"/biblioteca"} component={Biblioteca} />
-      <Route path={"/biblioteca/:id"} component={AuthorProfile} />
+      <Route path={"/biblioteca/autor/:slug"} component={AuthorProfile} />
       <Route path={"/biblioteca/texto/:slug"} component={Article} />
       <Route path={"/admin/subir"} component={Upload} />
       <Route path={"/404"} component={NotFound} />

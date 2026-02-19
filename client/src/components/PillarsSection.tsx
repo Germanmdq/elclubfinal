@@ -60,7 +60,7 @@ export default function PillarsSection() {
                 >
                   <a
                     href={pillar.href}
-                    className="group flex items-center justify-between py-4 border-b border-black/10 hover:border-[#3ceba0] transition-colors duration-300"
+                    className="group flex items-center justify-between py-4 border-b border-black/10 hover:border-[#a855f7] transition-colors duration-300"
                   >
                     <span className="text-black text-2xl md:text-3xl lg:text-4xl font-medium tracking-tighter group-hover:text-black/60 transition-colors duration-300">
                       {pillar.name}

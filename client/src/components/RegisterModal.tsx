@@ -121,7 +121,7 @@ export default function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
               {/* Header */}
               <div className="text-center mb-8">
                 <div className="flex items-center justify-center gap-2 mb-4">
-                  <span className="w-2 h-2 bg-[#3ceba0] rounded-full animate-pulse" />
+                  <span className="w-2 h-2 bg-[#a855f7] rounded-full animate-pulse" />
                   <span className="font-mono text-xs uppercase text-white/50 tracking-wide">
                     FREE VIRTUAL EVENT
                   </span>
@@ -148,7 +148,7 @@ export default function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
                       value={formData.firstName}
                       onChange={handleChange}
                       placeholder="Tony"
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-none focus:border-[#3ceba0] focus:ring-1 focus:ring-[#3ceba0] transition-all duration-300"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-none focus:border-[#a855f7] focus:ring-1 focus:ring-[#a855f7] transition-all duration-300"
                       required
                     />
                   </div>
@@ -162,7 +162,7 @@ export default function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
                       value={formData.lastName}
                       onChange={handleChange}
                       placeholder="Robbins"
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-none focus:border-[#3ceba0] focus:ring-1 focus:ring-[#3ceba0] transition-all duration-300"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-none focus:border-[#a855f7] focus:ring-1 focus:ring-[#a855f7] transition-all duration-300"
                     />
                   </div>
                 </div>
@@ -177,7 +177,7 @@ export default function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="tony@example.com"
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-none focus:border-[#3ceba0] focus:ring-1 focus:ring-[#3ceba0] transition-all duration-300"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-none focus:border-[#a855f7] focus:ring-1 focus:ring-[#a855f7] transition-all duration-300"
                     required
                   />
                 </div>
@@ -192,7 +192,7 @@ export default function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder="+1 (555) 000-0000"
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-none focus:border-[#3ceba0] focus:ring-1 focus:ring-[#3ceba0] transition-all duration-300"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-none focus:border-[#a855f7] focus:ring-1 focus:ring-[#a855f7] transition-all duration-300"
                   />
                 </div>
 
@@ -200,7 +200,7 @@ export default function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full mt-6 inline-flex items-center justify-center gap-2 font-medium text-center tracking-wide rounded-full duration-500 border border-[#3ceba0] bg-[#3ceba0] hover:bg-[#3ceba0]/80 disabled:opacity-50 disabled:cursor-not-allowed text-black text-sm py-4 px-8"
+                  className="w-full mt-6 inline-flex items-center justify-center gap-2 font-medium text-center tracking-wide rounded-full duration-500 border border-[#a855f7] bg-[#a855f7] hover:bg-[#a855f7]/80 disabled:opacity-50 disabled:cursor-not-allowed text-black text-sm py-4 px-8"
                 >
                   {isSubmitting ? (
                     <>

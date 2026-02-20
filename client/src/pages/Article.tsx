@@ -141,9 +141,9 @@ const Article = () => {
             <div className="min-h-screen bg-black text-white flex items-center justify-center">
                 <div className="text-center">
                     <h1 className="text-4xl font-black mb-4 tracking-tighter">Artículo no encontrado</h1>
-                    <Link href="/biblioteca">
+                    <Link href={post?.primary_tag?.slug ? `/${post.primary_tag.slug}` : "/biblioteca"}>
                         <button className="bg-white text-black px-8 py-4 rounded-full font-bold uppercase text-xs tracking-wider">
-                            Volver a Biblioteca
+                            Volver a {post?.primary_tag?.name || 'Biblioteca'}
                         </button>
                     </Link>
                 </div>
@@ -158,10 +158,12 @@ const Article = () => {
             <main className="pt-32 pb-24">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
-                    <Link href="/biblioteca">
+                    <Link href={post.primary_tag?.slug ? `/${post.primary_tag.slug}` : "/biblioteca"}>
                         <button className="inline-flex items-center gap-2 text-gray-500 hover:text-white transition-colors mb-12 group">
                             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                            <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Volver al Archivo</span>
+                            <span className="text-[10px] font-bold uppercase tracking-[0.2em]">
+                                Volver a {post.primary_tag?.name || 'Biblioteca'}
+                            </span>
                         </button>
                     </Link>
 
@@ -279,8 +281,8 @@ const Article = () => {
                                                                 key={section.id}
                                                                 onClick={() => goToSection(index)}
                                                                 className={`w-full flex items-center gap-4 px-6 py-4 rounded-2xl text-left transition-all duration-300 ${currentSection === index
-                                                                        ? 'bg-white/10 text-white'
-                                                                        : 'text-gray-500 hover:bg-white/5 hover:text-white'
+                                                                    ? 'bg-white/10 text-white'
+                                                                    : 'text-gray-500 hover:bg-white/5 hover:text-white'
                                                                     }`}
                                                             >
                                                                 <span className={`text-[10px] font-bold min-w-[2.5ch] text-center ${currentSection === index ? 'text-white' : 'text-gray-700'}`}>

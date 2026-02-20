@@ -209,7 +209,8 @@ class GhostClient {
 
     async getPostById(id: string): Promise<GhostPost> {
         const data = await this.fetch<{ posts: GhostPost[] }>(`posts/${id}`, {
-            include: 'tags,authors'
+            include: 'tags,authors',
+            formats: 'html,plaintext'
         });
         return data.posts[0];
     }

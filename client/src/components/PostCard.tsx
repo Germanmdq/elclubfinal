@@ -13,13 +13,17 @@ export default function PostCard({ post, index = 0 }: PostCardProps) {
     const isPremium = post.visibility !== 'public';
     const tagName = post.primary_tag?.name || 'Artículo';
 
-    // Debug: Ver qué tiene el post
-    console.log('POST DEBUG:', {
+    // Debug: Ver qué tiene el post (Detallado para diagnóstico)
+    console.log('POST DEBUG DETALLADO:', {
         title: post.title,
-        custom_excerpt: post.custom_excerpt,
-        excerpt: post.excerpt,
-        plaintext: post.plaintext?.substring(0, 100),
-        html: post.html?.substring(0, 100)
+        hasCustomExcerpt: !!post.custom_excerpt,
+        customExcerptLength: post.custom_excerpt?.length || 0,
+        hasExcerpt: !!post.excerpt,
+        excerptLength: post.excerpt?.length || 0,
+        hasPlaintext: !!post.plaintext,
+        plaintextLength: post.plaintext?.length || 0,
+        hasHtml: !!post.html,
+        htmlLength: post.html?.length || 0
     });
 
     const preview = getPostPreview(post, 180);

@@ -19,6 +19,8 @@ import DosisMentales from "./pages/DosisMentales";
 import Aggiornato from "./pages/Aggiornato";
 import Contenido from "./pages/Contenido";
 
+import Category from "./pages/Category";
+
 function Router() {
   return (
     <Switch>
@@ -37,6 +39,7 @@ function Router() {
       <Route path={"/contenido"} component={Contenido} />
       <Route path={"/admin/subir"} component={Upload} />
       <Route path={"/404"} component={NotFound} />
+      <Route path={"/:slug"} component={Category} />
       <Route component={NotFound} />
     </Switch>
   );

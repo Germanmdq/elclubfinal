@@ -27,16 +27,18 @@ export function getPostPreview(post: GhostPost, maxLength: number = 200): string
 }
 
 function stripHtml(html: string): string {
-    return html
-        .replace(/<[^>]*>/g, '')
-        .replace(/&nbsp;/g, ' ')
-        .replace(/&amp;/g, '&')
-        .replace(/&lt;/g, '<')
-        .replace(/&gt;/g, '>')
-        .replace(/&quot;/g, '"')
-        .replace(/&#39;/g, "'")
-        .replace(/\s+/g, ' ')
-        .trim();
+    if (!html) return "";
+
+    // Usar el DOM para extraer el texto de forma robusta
+    const temp = document.createElement('div');
+    temp.innerHTML = html;
+
+    // Eliminar elementos que no queremos en el preview
+    const toRemove = temp.querySelectorAll('script, style, figure, blockquote');
+    toRemove.forEach(el => el.remove());
+
+    // Obtener el texto limpio
+    return temp.textContent || temp.innerText || "";
 }
 
 function truncateText(text: string, maxLength: number): string {

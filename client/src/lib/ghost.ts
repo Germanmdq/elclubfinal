@@ -142,6 +142,7 @@ export interface GhostQueryParams {
     filter?: string;
     include?: string;
     fields?: string;
+    formats?: string;
     limit?: number | 'all';
     page?: number;
     order?: string;
@@ -192,6 +193,7 @@ class GhostClient {
     async getPosts(params?: GhostQueryParams): Promise<GhostPost[]> {
         const data = await this.fetch<{ posts: GhostPost[] }>('posts', {
             include: 'tags,authors',
+            formats: 'html,plaintext',
             ...params
         });
         return data.posts;
@@ -199,7 +201,8 @@ class GhostClient {
 
     async getPostBySlug(slug: string): Promise<GhostPost> {
         const data = await this.fetch<{ posts: GhostPost[] }>(`posts/slug/${slug}`, {
-            include: 'tags,authors'
+            include: 'tags,authors',
+            formats: 'html,plaintext'
         });
         return data.posts[0];
     }

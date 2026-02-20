@@ -15,6 +15,9 @@ import Topic from "./pages/Topic";
 import NevilleChat from "./pages/NevilleChat";
 import Testimonios from "./pages/Testimonios";
 import EventPage from "./pages/EventPage";
+import DosisMentales from "./pages/DosisMentales";
+import Aggiornato from "./pages/Aggiornato";
+import Contenido from "./pages/Contenido";
 
 function Router() {
   return (
@@ -29,6 +32,9 @@ function Router() {
       <Route path={"/biblioteca"} component={Biblioteca} />
       <Route path={"/biblioteca/autor/:slug"} component={AuthorProfile} />
       <Route path={"/biblioteca/texto/:slug"} component={Article} />
+      <Route path={"/dosis-mentales"} component={DosisMentales} />
+      <Route path={"/aggiornato"} component={Aggiornato} />
+      <Route path={"/contenido"} component={Contenido} />
       <Route path={"/admin/subir"} component={Upload} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />

@@ -2,41 +2,24 @@ import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PostCard from "@/components/PostCard";
-import { Search, Loader2 } from "lucide-react";
+import { Search, Loader2, Lightbulb } from "lucide-react";
 import { useGhostPosts } from "@/lib/ghost";
 import { motion } from "framer-motion";
 
-const categories = [
-    { name: "Todas", tag: null, exclude: ["dosis-mentales", "aggiornado-conferencias"] },
-    { name: "Conferencias", tag: "conferencias-de-neville-goddard", exclude: [] },
-    { name: "Libros", tag: "libros-de-neville-goddard", exclude: [] }
-];
-
-export default function Biblioteca() {
-    const [activeCategory, setActiveCategory] = useState(categories[0]);
+export default function DosisMentales() {
     const [searchQuery, setSearchQuery] = useState("");
 
     const { posts, loading, error } = useGhostPosts({
-        filter: activeCategory.tag ? `tag:${activeCategory.tag}` : undefined,
+        filter: 'tag:dosis-mentales',
         limit: 'all',
         include: 'tags,authors'
     });
 
     const filteredPosts = posts?.filter(post => {
-        // Excluir tags específicos de la vista "Todas"
-        if (activeCategory.exclude.length > 0) {
-            const hasExcludedTag = post.tags?.some(tag =>
-                activeCategory.exclude.includes(tag.slug)
-            );
-            if (hasExcludedTag) return false;
-        }
-
-        // Filtro de búsqueda
         if (!searchQuery) return true;
         const search = searchQuery.toLowerCase();
         return post.title.toLowerCase().includes(search) ||
-            post.excerpt?.toLowerCase().includes(search) ||
-            post.plaintext?.toLowerCase().includes(search);
+            post.excerpt?.toLowerCase().includes(search);
     }) || [];
 
     return (
@@ -52,19 +35,19 @@ export default function Biblioteca() {
                             animate={{ opacity: 1, y: 0 }}
                             className="flex items-center justify-center gap-2 mb-6"
                         >
-                            <span className="w-1.5 h-1.5 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
+                            <Lightbulb className="w-4 h-4 text-white" />
                             <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-gray-500 font-bold">
-                                Archivo del Conocimiento
+                                Dosis Diaria
                             </span>
                         </motion.div>
 
                         <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tighter leading-tight">
-                            Biblioteca de la <br />
-                            <span className="text-white/30">Imaginación</span>
+                            Dosis <br />
+                            <span className="text-white/30">Mentales</span>
                         </h1>
 
                         <p className="text-gray-500 text-lg font-light max-w-2xl mx-auto">
-                            Explorá las conferencias, escritos y enseñanzas de maestros de la consciencia.
+                            Enseñanzas breves y poderosas para integrar en tu día a día.
                         </p>
                     </div>
 
@@ -73,7 +56,7 @@ export default function Biblioteca() {
                             <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600 group-focus-within:text-white transition-colors" />
                             <input
                                 type="text"
-                                placeholder="Buscar en el archivo..."
+                                placeholder="Buscar dosis..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 className="w-full bg-white/[0.03] border border-white/5 rounded-full py-5 pl-16 pr-6 text-base focus:outline-none focus:border-white/10 transition-all font-light tracking-tight"
@@ -81,33 +64,23 @@ export default function Biblioteca() {
                         </div>
                     </div>
 
-                    <div className="flex flex-wrap items-center justify-center gap-3 mb-16">
-                        {categories.map((cat) => (
-                            <button
-                                key={cat.name}
-                                onClick={() => setActiveCategory(cat)}
-                                className={`px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-300 ${activeCategory.name === cat.name
-                                        ? 'bg-white text-black'
-                                        : 'bg-white/5 text-gray-500 hover:bg-white/10 hover:text-white'
-                                    }`}
-                            >
-                                {cat.name}
-                            </button>
-                        ))}
-                    </div>
-
                     {loading ? (
                         <div className="flex flex-col items-center justify-center py-32">
                             <Loader2 className="w-10 h-10 text-white/20 animate-spin mb-6" />
-                            <p className="text-gray-600 text-sm uppercase tracking-wider">Cargando archivo...</p>
+                            <p className="text-gray-600 text-sm uppercase tracking-wider">Cargando...</p>
                         </div>
                     ) : error ? (
                         <div className="text-center py-24 bg-white/[0.02] border border-white/5 rounded-3xl">
-                            <p className="text-gray-500">Error al cargar el archivo de Ghost</p>
+                            <p className="text-gray-500">Error al cargar las dosis mentales</p>
                         </div>
                     ) : filteredPosts.length === 0 ? (
-                        <div className="text-center py-24 bg-white/[0.02] border border-white/5 rounded-[3rem]">
-                            <p className="text-gray-500 font-light text-lg">No se encontraron contenidos</p>
+                        <div className="text-center py-24 bg-white/[0.02] border border-white/5 rounded-3xl">
+                            <Lightbulb className="w-12 h-12 text-white/20 mx-auto mb-4" />
+                            <p className="text-gray-500">
+                                No hay dosis mentales disponibles aún.
+                                <br />
+                                <span className="text-sm">Asegurate de crear posts en Ghost con el tag "dosis-mentales"</span>
+                            </p>
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">

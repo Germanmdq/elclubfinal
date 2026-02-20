@@ -1,51 +1,60 @@
 import { useState } from "react";
 import Header from "@/components/Header";
-import HeroSection from "@/components/HeroSection";
-import EventsCarousel from "@/components/EventsCarousel";
-import TestimonialsSection from "@/components/TestimonialsSection";
-import PillarsSection from "@/components/PillarsSection";
-import AboutSection from "@/components/AboutSection";
-import CoachingSection from "@/components/CoachingSection";
-import ShopSection from "@/components/ShopSection";
 import Footer from "@/components/Footer";
-import RegisterModal from "@/components/RegisterModal";
-
-/* ECDLI Homepage
-   Estructura exacta del sitio original:
-   1. Header fijo transparente
-   2. Hero Section con imagen de fondo
-   3. Events Carousel
-   4. Testimonials (fondo azul)
-   5. Pillars Section (fondo blanco)
-   6. About Section
-   7. Coaching Section (fondo oscuro con naranja)
-   8. Shop Section
-   9. Footer
-   + Modal de registro
-*/
+import HeroSection from "@/components/HeroSection";
+import DosisMentalesSection from "@/components/DosisMentalesSection";
+import BibliotecaPreviewSection from "@/components/BibliotecaPreviewSection";
+import NevilleAggiornatoSection from "@/components/NevilleAggiornatoSection";
+import EventsCarousel from "@/components/EventsCarousel";
+import ExplicacionesBiblicasSection from "@/components/ExplicacionesBiblicasSection";
+import ResultsSection from "@/components/ResultsSection";
+import ForoPreviewSection from "@/components/ForoPreviewSection";
+import AboutSection from "@/components/AboutSection";
+import AuthModal from "@/components/AuthModal";
 
 export default function Home() {
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
-
-  const openRegisterModal = () => setIsRegisterModalOpen(true);
-  const closeRegisterModal = () => setIsRegisterModalOpen(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a]">
+    <div className="min-h-screen bg-black selection:bg-white selection:text-black">
       <Header />
+
       <main>
-        <HeroSection onOpenRegister={openRegisterModal} />
+        {/* 1. Hero Section */}
+        <HeroSection onOpenRegister={() => setIsAuthModalOpen(true)} />
+
+        {/* 2. Dosis Mentales */}
+        <DosisMentalesSection />
+
+        {/* 3. Biblioteca Preview */}
+        <BibliotecaPreviewSection />
+
+        {/* 4. Neville Aggiornato */}
+        <NevilleAggiornatoSection />
+
+        {/* 5. Eventos Carousel */}
         <EventsCarousel />
-        <TestimonialsSection />
-        <PillarsSection />
+
+        {/* 6. Explicaciones Bíblicas */}
+        <ExplicacionesBiblicasSection />
+
+        {/* 7. Testimonios / Resultados */}
+        <ResultsSection />
+
+        {/* 8. Foro Preview */}
+        <ForoPreviewSection />
+
+        {/* 9. Sobre Nosotros */}
         <AboutSection />
-        <CoachingSection />
-        <ShopSection />
       </main>
+
       <Footer />
-      
-      {/* Register Modal */}
-      <RegisterModal isOpen={isRegisterModalOpen} onClose={closeRegisterModal} />
+
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        initialView="register"
+      />
     </div>
   );
 }

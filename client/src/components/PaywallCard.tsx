@@ -1,85 +1,81 @@
-import { motion } from 'framer-motion';
-import { Lock, ArrowRight, Sparkles, ShieldCheck } from 'lucide-react';
-import { useLocation } from 'wouter';
+import { motion } from "framer-motion";
+import { Lock, ArrowRight } from "lucide-react";
+import { useLocation } from "wouter";
 
 interface PaywallCardProps {
     requiredTier: string;
 }
 
-export function PaywallCard({ requiredTier }: PaywallCardProps) {
+export default function PaywallCard({ requiredTier }: PaywallCardProps) {
     const [, setLocation] = useLocation();
-    const tierName = requiredTier === 'members' ? 'Miembro' : (requiredTier === 'paid' ? 'VIP' : requiredTier);
+
+    const tierNames: Record<string, string> = {
+        'members': 'Membresía',
+        'paid': 'Premium',
+        'tiers': 'Premium'
+    };
+
+    const tierName = tierNames[requiredTier] || 'Premium';
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full max-w-4xl mx-auto my-24 relative group"
+            transition={{ duration: 0.5 }}
+            className="w-full max-w-2xl mx-auto my-16"
         >
-            {/* Ambient Background Glow - Monochromatic */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-white/5 to-white/[0.02] rounded-[3rem] blur-2xl opacity-50 group-hover:opacity-100 transition duration-1000" />
+            <div className="relative bg-white/[0.02] border border-white/10 rounded-[3rem] overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent" />
 
-            <div className="relative bg-black border border-white/5 rounded-[3rem] overflow-hidden">
-                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.03),transparent)] pointer-events-none" />
+                <div className="relative p-12 lg:p-16 text-center">
 
-                <div className="p-12 md:p-20 text-center flex flex-col items-center">
-                    {/* Iconic Identity Lock */}
-                    <div className="relative mb-12">
-                        <motion.div
-                            initial={{ scale: 0.8, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            transition={{ delay: 0.2, duration: 0.5 }}
-                            className="w-24 h-24 bg-white/[0.03] border border-white/10 rounded-[2rem] flex items-center justify-center relative z-10"
-                        >
-                            <Lock className="w-8 h-8 text-white opacity-40 group-hover:opacity-100 transition-opacity duration-500" />
-                        </motion.div>
-                        <div className="absolute inset-0 bg-white/5 blur-[40px] opacity-50 group-hover:opacity-100 transition-opacity duration-1000" />
+                    {/* Icon */}
+                    <div className="w-16 h-16 mx-auto mb-8 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.05)]">
+                        <Lock className="w-7 h-7 text-white/40" />
                     </div>
 
-                    {/* Minimalist Badge */}
-                    <div className="flex items-center gap-2 mb-8 animate-fade-in">
-                        <span className="w-1.5 h-1.5 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
-                        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-gray-500 font-bold">
-                            Contenido Reservado
+                    {/* Badge */}
+                    <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-white/5 border border-white/5 rounded-full">
+                        <span className="w-1.5 h-1.5 bg-white/40 rounded-full" />
+                        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">
+                            Contenido {tierName}
                         </span>
                     </div>
 
-                    {/* Elevated Typography */}
-                    <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-8 leading-tight text-white">
-                        Este espacio requiere <br />
-                        <span className="text-white opacity-30">Acceso {tierName}</span>
+                    {/* Title */}
+                    <h2 className="text-4xl md:text-5xl font-black tracking-tighter text-white mb-6 leading-tight">
+                        Este espacio requiere
+                        <br />
+                        <span className="text-white/30">Acceso {tierName}</span>
                     </h2>
 
-                    <p className="text-gray-500 text-lg md:text-xl font-light leading-relaxed max-w-xl mb-16 tracking-tight">
-                        Uníte a la comunidad exclusiva de <span className="text-white font-medium">El Club de la Imaginación</span> para desbloquear este texto y todo nuestro archivo sagrado.
+                    {/* Description */}
+                    <p className="text-gray-400 text-lg mb-12 max-w-md mx-auto font-light leading-relaxed">
+                        Unite a la comunidad exclusiva de El Club de la Imaginación para desbloquear este contenido y todo nuestro archivo sagrado.
                     </p>
 
-                    {/* Premium Action Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-lg">
+                    {/* Buttons */}
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <button
                             onClick={() => setLocation('/pricing')}
-                            className="group relative bg-white text-black font-black text-[11px] uppercase tracking-[0.2em] py-5 px-8 rounded-full transition-all hover:bg-white/90 active:scale-95 flex items-center justify-center gap-3"
+                            className="group bg-white text-black font-bold text-xs uppercase tracking-widest px-10 py-5 rounded-full hover:bg-white/90 transition-all inline-flex items-center justify-center gap-2"
                         >
-                            <Sparkles className="w-4 h-4" />
-                            Comenzar ahora
+                            Comenzar Ahora
                             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                         </button>
 
                         <button
                             onClick={() => setLocation('/biblioteca')}
-                            className="bg-white/[0.03] border border-white/10 text-white font-black text-[11px] uppercase tracking-[0.2em] py-5 px-8 rounded-full transition-all hover:bg-white/10 active:scale-95 flex items-center justify-center gap-3"
+                            className="bg-white/5 text-white border border-white/5 font-bold text-xs uppercase tracking-widest px-10 py-5 rounded-full hover:bg-white/10 transition-all"
                         >
-                            <ShieldCheck className="w-4 h-4 text-gray-500" />
-                            Explorar catálogo
+                            Explorar Catálogo
                         </button>
                     </div>
 
-                    <div className="mt-16 pt-8 border-t border-white/5 w-full">
-                        <p className="text-[10px] uppercase tracking-[0.3em] text-gray-700 font-black">
-                            Seguridad de acceso garantizada
-                        </p>
-                    </div>
+                    {/* Footer */}
+                    <p className="mt-12 text-[10px] uppercase tracking-[0.3em] text-gray-600 font-bold">
+                        Seguridad de acceso garantizada
+                    </p>
                 </div>
             </div>
         </motion.div>
